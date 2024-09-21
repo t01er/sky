@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores y Modales Personalizados</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            background: yellow;
+        }
+
+        .flor {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .petalo {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: yellow;
+            border-radius: 50%;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .petalo1 {
+            top: 0;
+            left: 25px;
+        }
+
+        .petalo2 {
+            top: 25px;
+            right: 0;
+        }
+
+        .petalo3 {
+            bottom: 0;
+            left: 25px;
+        }
+
+        .petalo4 {
+            top: 25px;
+            left: 0;
+        }
+
+        .centro {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            background-color: orange;
+            border-radius: 50%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .modal-button {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="height: 100vh; justify-content: center; align-items: center; display: flex;">
+        <button id="play-music" class="modal-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+            </svg>
+            Iniciar Música
+        </button>
+    </div>
+    <audio id="background-music" loop>
+        <source src="Amilosingyou.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-text"></p>
+            <button class="modal-button" id="modal-button"></button>
+        </div>
+    </div>
+
+    <script>
+        const numFlores = 3000;
+        let floresMostradas = 0;
+
+        function mostrarFlores() {
+            for (let i = 0; i < numFlores; i++) {
+                const flor = document.createElement('div');
+                flor.classList.add('flor');
+
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+
+                flor.style.left = `${posX}vw`;
+                flor.style.top = `${posY}vh`;
+
+                const petalo1 = document.createElement('div');
+                petalo1.classList.add('petalo', 'petalo1');
+                flor.appendChild(petalo1);
+
+                const petalo2 = document.createElement('div');
+                petalo2.classList.add('petalo', 'petalo2');
+                flor.appendChild(petalo2);
+
+                const petalo3 = document.createElement('div');
+                petalo3.classList.add('petalo', 'petalo3');
+                flor.appendChild(petalo3);
+
+                const petalo4 = document.createElement('div');
+                petalo4.classList.add('petalo', 'petalo4');
+                flor.appendChild(petalo4);
+
+                const centro = document.createElement('div');
+                centro.classList.add('centro');
+                flor.appendChild(centro);
+
+                document.body.appendChild(flor);
+
+                setTimeout(() => {
+                    flor.style.opacity = 1;
+                    floresMostradas++;
+
+                    if (floresMostradas === numFlores) {
+                        mostrarModal('Pq ta tite ): ');
+                    }
+                }, Math.random() * 5000);
+            }
+        }
+
+        const playButton = document.getElementById('play-music');
+        playButton.onclick = () => {
+            const music = document.getElementById('background-music');
+            music.play();
+            playButton.style.display = 'none'; // Ocultar el botón después de iniciar la música
+            mostrarFlores(); // Iniciar la animación de flores
+        };
+
+        function mostrarModal(title, text) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+            const modalButton = document.getElementById('modal-button');
+
+            modalTitle.textContent = title;
+            modalText.textContent = text;
+            modal.style.display = 'flex';
+
+       
+            setTimeout(() => {
+                modal.style.display = 'none';
+                mostrarSegundoModal('Sky <3', 'Te hice esta página web para que no lo estés');
+            }, 7000);
+        }
+
+        function mostrarSegundoModal(title, text) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+
+            modalTitle.textContent = title;
+            modalText.textContent = text;
+
+            modal.style.display = 'flex';
+
+            // Ocultar el modal después de 3 segundos
+            setTimeout(() => {
+                modal.style.display = 'none';
+                mostrarTercerModal('Disfruta de la música <3', '');
+            }, 7000);
+        }
+
+        function mostrarTercerModal(title, text) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+            const modalButton = document.getElementById('modal-button');
+
+            modalTitle.textContent = title;
+            modalText.textContent = text;
+
+            modalButton.textContent = 'Gracias';
+            modalButton.onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            modal.style.display = 'flex';
+        }
+    </script>
+
+</body>
+
+</html>
